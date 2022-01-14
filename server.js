@@ -12,7 +12,7 @@ app.use(express.json({ extended: false }));
 
 // app.get('/', (req, res) => res.send('Server Running'));
 
-app.get('/*', (req, res) => {
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
