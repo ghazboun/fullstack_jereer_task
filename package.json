@@ -7,8 +7,7 @@
     "start": "node server",
     "server": "nodemon server",
     "client": "npm start --prefix client",
-    "dev": "npx run concurrently \"npm run server\" \"npm run client\"",
-    "heroku-postbuild": "cd client && npm install && npm run build"
+    "dev": "npx run concurrently \"npm run server\" \"npm run client\""
   },
   "author": "",
   "license": "ISC",
