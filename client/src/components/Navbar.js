@@ -18,7 +18,7 @@ const Navbar = () => {
     <ul>
       <li>
         <Link to="/feed">
-          <i className="fas fa-user" /> <span className="hide-sm">Feed</span>
+          <i /> <span>Feed</span>
         </Link>
       </li>
       <li>
@@ -46,7 +46,7 @@ const Navbar = () => {
     <nav className="navbar bg-dark">
       <h1>
         <Link to="/">
-          <i className="fas fa-code" /> Social Feed
+          <i className="fas fa-comments" /> Social Feed
         </Link>
       </h1>
       <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>

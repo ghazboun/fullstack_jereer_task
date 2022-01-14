@@ -23,6 +23,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  avatarcolor: {
+    type: String,
+    required: true,
+  },
 });
 
 // eslint-disable-next-line no-undef

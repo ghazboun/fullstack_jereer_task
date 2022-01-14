@@ -19,6 +19,7 @@ const Feed = () => {
       <Post
         key={posts._id}
         username={posts.username}
+        user={posts.user}
         date={posts.date.toString().substr(0, 10)}
         text={posts.text}
       />

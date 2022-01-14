@@ -11,6 +11,7 @@ const router = express.Router();
 
 router.post('/', async (req, res) => {
   const { username, email, password, phone, countrycode } = req.body;
+  const avatarcolor = '#' + Math.floor(Math.random() * 16777215).toString(16);
   try {
     // see if user exist
     let user = await User.findOne({ email });
@@ -25,6 +26,7 @@ router.post('/', async (req, res) => {
       password,
       phone,
       countrycode,
+      avatarcolor,
     });
 
     //encrypt the password
@@ -57,5 +59,32 @@ router.post('/', async (req, res) => {
     res.status(500).send('server error');
   }
 });
+
+// @route    Get api/users/:user_id
+// @desc     Get by id
+// @access   Private
+
+router.get(
+  '/:user_id',
+  // , auth
+  async (req, res) => {
+    try {
+      const user = await User.findById(req.params.user_id);
+
+      if (!user) {
+        return res.status(404).json({ msg: 'User not found' });
+      }
+
+      res.json(user);
+    } catch (err) {
+      console.error(err.message);
+      if (err.kind == 'ObjectId') {
+        return res.status(404).json({ msg: 'User not found' });
+      }
+
+      res.status(500).send('Server Error');
+    }
+  }
+);
 
 module.exports = router;
