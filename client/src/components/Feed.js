@@ -46,6 +46,9 @@ const Feed = () => {
     };
 
     axios.post('api/posts', NewPost).then((res) => SetChange(!change));
+    
+    
+    setNewPost('');
   };
 
   //Rerendering each time a new post has been published
