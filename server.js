@@ -10,11 +10,13 @@ connectDB();
 //init middleware
 app.use(express.json({ extended: false }));
 
-// app.get('/', (req, res) => res.send('Server Running'));
+app.get('/', (req, res) => res.send('Server Running'));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
+//tried deploying to heroku (failed)
+
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'build', 'index.html'));
+// });
 
 // Define Routes
 
