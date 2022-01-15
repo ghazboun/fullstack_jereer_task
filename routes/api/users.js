@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 const User = require('../../models/User');
 const router = express.Router();
+const auth = require('../../middleware/auth');
 
 //@route POST api/user
 //@desc Register user
@@ -60,31 +61,28 @@ router.post('/', async (req, res) => {
   }
 });
 
+
 // @route    Get api/users/:user_id
 // @desc     Get by id
 // @access   Private
 
-router.get(
-  '/:user_id',
-  // , auth
-  async (req, res) => {
-    try {
-      const user = await User.findById(req.params.user_id);
+router.get('/:user_id', auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.params.user_id);
 
-      if (!user) {
-        return res.status(404).json({ msg: 'User not found' });
-      }
-
-      res.json(user);
-    } catch (err) {
-      console.error(err.message);
-      if (err.kind == 'ObjectId') {
-        return res.status(404).json({ msg: 'User not found' });
-      }
-
-      res.status(500).send('Server Error');
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found' });
     }
+
+    res.json(user);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind == 'ObjectId') {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+
+    res.status(500).send('Server Error');
   }
-);
+});
 
 module.exports = router;

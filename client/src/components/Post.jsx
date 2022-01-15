@@ -9,6 +9,9 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { useEffect } from 'react';
+import { CardActions, Link } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { useSelector } from 'react-redux';
 
 //Expand more option if text is more than a 100 Charecters
 const ExpandMore = styled((props) => {
@@ -23,6 +26,8 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function Post(props) {
+  const user = useSelector((state) => state.auth.user._id);
+  // const [change, setChange] = useState(false);
   //Tracking Exapnd
   const [expanded, setExpanded] = React.useState(false);
   //Tracking Dots at the end of each post that is more than 100 Chars
@@ -52,9 +57,17 @@ export default function Post(props) {
       .then((response) => setColor(response.data.avatarcolor));
   };
 
+  const deletePost = async () => {
+    await axios
+      .delete('api/posts/' + props.id)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
   useEffect(() => {
     getColor();
-    console.log(color);
   }, []);
 
   return (
@@ -105,6 +118,21 @@ export default function Post(props) {
           )}
         </Typography>
       </CardContent>
+      {user === props.user ? (
+        <CardActions disableSpacing>
+          <IconButton
+            onClick={deletePost}
+            id="basic-button"
+            aria-controls="settings"
+            sx={{ ml: 'auto' }}
+            aria-label="settings"
+          >
+            <DeleteIcon />
+          </IconButton>
+        </CardActions>
+      ) : (
+        <div></div>
+      )}
     </Card>
   );
 }

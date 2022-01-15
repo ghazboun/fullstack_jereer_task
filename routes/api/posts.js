@@ -39,4 +39,13 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
+// @route    DELETE api/posts/id
+// @desc     Delete post by id
+// @access   Private
+router.route('/:id', auth).delete((req, res) => {
+  Post.findByIdAndDelete(req.params.id)
+    .then(() => res.json('Post deleted.'))
+    .catch((err) => res.status(400).json('Error: ' + err));
+});
+
 module.exports = router;
