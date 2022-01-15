@@ -7,6 +7,8 @@ import CardContent from '@mui/material/CardContent';
 import Avatar from '@mui/material/Avatar';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Typography from '@mui/material/Typography';
+import axios from 'axios';
+import { useEffect } from 'react';
 
 //Expand more option if text is more than a 100 Charecters
 const ExpandMore = styled((props) => {
@@ -25,6 +27,8 @@ export default function Post(props) {
   const [expanded, setExpanded] = React.useState(false);
   //Tracking Dots at the end of each post that is more than 100 Chars
   const [dots, setDots] = React.useState('...');
+  const [color, setColor] = React.useState('#000');
+
   const [postText, setPostText] = React.useState(
     props.text.substr(0, 100) + dots
   );
@@ -41,6 +45,18 @@ export default function Post(props) {
       setExpanded(!expanded);
     }
   };
+
+  const getColor = async () => {
+    await axios
+      .get('/api/users/' + props.user)
+      .then((response) => setColor(response.data.avatarcolor));
+  };
+
+  useEffect(() => {
+    getColor();
+    console.log(color);
+  }, []);
+
   return (
     //Creating posts as cards
     <Card
@@ -56,9 +72,8 @@ export default function Post(props) {
           //Adding avatar with the first letter of each username and a randomly generated color
           <Avatar
             sx={{
-              bgcolor: '#' + Math.floor(Math.random() * 16777215).toString(16),
+              bgcolor: `${color}`,
             }}
-            aria-label="recipe"
           >
             {props.username.substr(0, 1)}
           </Avatar>
@@ -66,7 +81,6 @@ export default function Post(props) {
         title={props.username}
         subheader={props.date}
       />
-
       <CardContent onClick={handleExpandClick}>
         <Typography
           sx={{ textAlign: 'left' }}
